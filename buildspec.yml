@@ -1,5 +1,11 @@
 version: 0.2
 
+env:
+  variables:
+    IMAGE_REPO_NAME: "2048game"
+    IMAGE_TAG: "latest"
+    AWS_DEFAULT_REGION: "us-east-1"
+
 phases:
   pre_build:
     commands:
@@ -11,14 +17,5 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t 2048game .
-      - docker tag 2048game:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/2048game:latest
-
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/2048game:latest
-
-artifacts:
-  files: []
+      - docker build -t $IMAGE_REPO_NAME .
+      - docker tag $IMAGE_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_N
